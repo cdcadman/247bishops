@@ -1,0 +1,21 @@
+[tool.bandit]
+exclude_dirs = ["tests", "run_flask.py", "venv"]
+
+[tool.pytest.ini_options]
+filterwarnings=[
+    "error",
+]
+
+[tool.licensecheck]
+using = "requirements:requirements.txt"
+
+[project]
+license = "AGPL"
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint]
+ignore = ["venv"]
+recursive = "y"
+disable = "C,R,I"
