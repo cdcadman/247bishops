@@ -1,8 +1,20 @@
+from os import environ
 from pathlib import Path
 
 import flask
 
 app = flask.Flask(__name__)
+
+
+@app.before_request
+def maintenance_mode():
+    if environ["MAINTENANCE_MODE"] == "1":
+        return (
+            flask.send_file(
+                Path(__file__).parent.absolute().parent / "html" / "maintenance.html"
+            ),
+            503,
+        )
 
 
 @app.route("/")
