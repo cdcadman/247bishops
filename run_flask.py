@@ -5,9 +5,13 @@ Direct your webbrowser to http://127.0.0.1:5001 to view the app (if you ran it o
 """
 
 import sys
+from os import environ
 
 from app import app
 
 PORT = sys.argv[1] if len(sys.argv) > 1 else 5000
+environ["MAINTENANCE_MODE"] = (
+    "1" if len(sys.argv) > 2 and sys.argv[2] == "True" else "0"
+)
 
 app.run(host="127.0.0.1", port=PORT)

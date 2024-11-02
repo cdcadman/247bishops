@@ -15,15 +15,11 @@ def close_server(server: sp.Popen, check_status=True):
 
 
 @contextmanager
-def get_server_url():
+def get_server_url(maintenance_mode: bool = False):
     port = 5000
     while True:
         server = sp.Popen(
-            [
-                sys.executable,
-                "run_flask.py",
-                str(port),
-            ],
+            [sys.executable, "run_flask.py", str(port), str(maintenance_mode)],
             stderr=sp.PIPE,
             text=True,
             universal_newlines=True,
