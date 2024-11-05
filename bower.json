@@ -1,0 +1,6 @@
+{
+  "name": "247bishops",
+  "dependencies": {
+    "frontfire_2.0.0": "https://github.com/ygoe/Frontfire2/releases/download/v2.0.0/frontfire_2.0.0.zip"
+  }
+}

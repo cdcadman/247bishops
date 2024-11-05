@@ -23,3 +23,6 @@ instance/
 
 # Virtual environment for building deterministic requirements
 venv/
+
+# CSS/Javascript installed by bower
+bower_components/

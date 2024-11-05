@@ -5,6 +5,7 @@ import flask
 
 app = flask.Flask(__name__)
 
+#TODO: Add hash to frontfire download.
 
 @app.before_request
 def maintenance_mode():
@@ -23,6 +24,15 @@ def main():
         Path(__file__).parent.absolute().parent / "html" / "main.html"
     )
 
+@app.route("/test")
+def main_test():
+    return flask.send_file(
+        Path(__file__).parent.absolute().parent / "html" / "test.html"
+    )
+
+@app.route("/bower_components/<package>/<folder>/<file>")
+def bower_component(package, folder, file):
+    return flask.send_file(Path(__file__).parent.absolute().parent / "bower_components" / package / folder / file)
 
 @app.route("/favicon.svg")
 def favicon():
