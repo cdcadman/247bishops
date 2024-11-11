@@ -8,7 +8,7 @@ app = flask.Flask(__name__)
 RESPONSE_HEADERS = {
     "Content-Security-Policy": "default-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests",
     "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Strict-Transport-Security": "max-age=300; includeSubDomains",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
     "X-Content-Type-Options": "nosniff",
 }
 
@@ -17,7 +17,10 @@ TOP_LEVEL_PATH = Path(__file__).parent.absolute().parent
 
 @app.before_request
 def maintenance_mode():
-    if environ["MAINTENANCE_MODE"] == "1":
+    if environ["MAINTENANCE_MODE"] == "1" and flask.request.path not in (
+        "/favicon.svg",
+        "/css/main.css",
+    ):
         return flask.send_file(TOP_LEVEL_PATH / "html" / "maintenance.html"), 503
 
 
