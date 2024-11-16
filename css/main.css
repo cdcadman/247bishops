@@ -31,14 +31,21 @@ div.popup {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: green;
+    background-color: blue;
     color: white;
     text-align: center;
     padding: 20px;
     border-radius: 5px;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    font-size: 1.5em;
 }
 div.show {
     opacity: 1;
+}
+div.popup p a {
+    color: white;
+}
+div.blur {
+    filter: blur(1rem);
 }
