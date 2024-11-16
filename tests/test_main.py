@@ -4,6 +4,8 @@ from webapp_python.main import RESPONSE_HEADERS
 
 from .server import get_server_url
 
+# TODO: Use selenium
+
 
 def test_main():
     with get_server_url() as webapp_url:
