@@ -2,6 +2,7 @@ from os import environ
 from pathlib import Path
 
 import flask
+from werkzeug.exceptions import NotFound
 
 app = flask.Flask(__name__)
 
@@ -46,3 +47,11 @@ def favicon():
 @app.route("/css/main.css")
 def internal_css():
     return flask.send_file(TOP_LEVEL_PATH / "css" / "main.css")
+
+
+@app.route("/javascript/<file>")
+def internal_javascript(file):
+    try:
+        return flask.send_file(TOP_LEVEL_PATH / "javascript" / file)
+    except FileNotFoundError:
+        return NotFound()

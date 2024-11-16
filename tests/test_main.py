@@ -20,7 +20,7 @@ def test_main():
         assert response.status_code == 200
         for key, val in RESPONSE_HEADERS.items():
             assert response.headers[key] == val
-        assert "background-color:green" in response.text
+        assert "background-color: green" in response.text
 
 
 def test_maint():

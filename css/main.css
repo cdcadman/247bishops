@@ -1,3 +1,28 @@
-body {background-color:green}
-h1 {color:white}
-p {color:white}
+body {
+    background-color:lightcyan;
+}
+h1 {
+    color:blue;
+    text-align: center
+}
+menu.top {
+    background-color: green;
+    position:sticky;
+    top:0;
+    width:100%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+}
+li.menu {
+    list-style-type: none;
+}
+li.menu button {
+    font-size: 1.5em;
+    background-color: green;
+    color: white;
+    border: none;
+}
+li.menu button:hover {
+    background-color: lightgreen;
+}
