@@ -26,6 +26,9 @@ li.menu button {
 li.menu button:hover {
     background-color: lightgreen;
 }
+li.menu img {
+    max-height: 1.5em;
+}
 div.popup {
     position: fixed;
     top: 50%;

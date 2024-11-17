@@ -41,7 +41,7 @@ def main():
 def favicon():
     """If this is updated, you also need to increment the version in the link tag in the html file.
     See https://stackoverflow.com/questions/2208933/how-do-i-force-a-favicon-refresh"""
-    return flask.send_file(TOP_LEVEL_PATH / "html" / "247bishops_icon.png")
+    return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_icon.png")
 
 
 # TODO: Add icon to webpage, upper left and and landing page.
@@ -56,5 +56,12 @@ def internal_css():
 def internal_javascript(file):
     try:
         return flask.send_file(TOP_LEVEL_PATH / "javascript" / file)
+    except FileNotFoundError:
+        return NotFound()
+
+@app.route("/images/<file>")
+def internal_images(file):
+    try:
+        return flask.send_file(TOP_LEVEL_PATH / "images" / file)
     except FileNotFoundError:
         return NotFound()
