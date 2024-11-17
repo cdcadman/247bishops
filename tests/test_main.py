@@ -14,7 +14,7 @@ def test_main():
         for key, val in RESPONSE_HEADERS.items():
             assert response.headers[key] == val
         assert "24/7 Bishops" in response.text
-        response = requests.get(f"{webapp_url}/favicon.svg?v=1729", timeout=60)
+        response = requests.get(f"{webapp_url}/favicon.png?v=1729", timeout=60)
         assert response.status_code == 200
         for key, val in RESPONSE_HEADERS.items():
             assert response.headers[key] == val
