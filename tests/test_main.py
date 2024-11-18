@@ -16,6 +16,8 @@ def test_main(driver: BaseWebDriver):
         )
         about = driver.find_element(By.ID, "about")
         assert about.get_attribute("innerText") == "About 24/7 Bishops"
+        about_popup = driver.find_element(By.ID, "about_popup")
+        assert not about_popup.is_displayed()
         about.click()
         WebDriverWait(driver, TIMEOUT).until(
             EC.visibility_of_element_located((By.ID, "about_popup"))
@@ -23,6 +25,9 @@ def test_main(driver: BaseWebDriver):
         assert "GNU Affero General Public License" in driver.find_element(
             By.ID, "about_popup"
         ).get_attribute("innerText")
+        assert about_popup.is_displayed()
+        driver.find_element(By.ID, "close_about_popup").click()
+        WebDriverWait(driver, TIMEOUT).until(lambda d: not about_popup.is_displayed())
 
 
 def test_maint(driver: BaseWebDriver):
