@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from selenium import webdriver as wd
 
@@ -17,8 +19,12 @@ def edge():
 def firefox():
     options = wd.FirefoxOptions()
     options.add_argument("-headless")
-    service = wd.FirefoxService(executable_path="/snap/bin/geckodriver")
-    return wd.Firefox(options=options, service=service)
+    kwargs = {"options": options}
+    executable_path = "/snap/bin/geckodriver"
+    if Path(executable_path).exists():  # pragma: no cover
+        service = wd.FirefoxService(executable_path=executable_path)
+        kwargs["service"] = service
+    return wd.Firefox(**kwargs)
 
 
 @pytest.fixture(params=[chrome, edge, firefox])
