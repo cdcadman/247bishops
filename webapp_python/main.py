@@ -2,7 +2,6 @@ from os import environ
 from pathlib import Path
 
 import flask
-from werkzeug.exceptions import NotFound
 
 app = flask.Flask(__name__)
 
@@ -49,17 +48,11 @@ def internal_css():
     return flask.send_file(TOP_LEVEL_PATH / "css" / "main.css")
 
 
-@app.route("/javascript/<file>")
-def internal_javascript(file):
-    try:
-        return flask.send_file(TOP_LEVEL_PATH / "javascript" / file)
-    except FileNotFoundError:
-        return NotFound()
+@app.route("/javascript/main.js")
+def internal_javascript():
+    return flask.send_file(TOP_LEVEL_PATH / "javascript" / "main.js")
 
 
-@app.route("/images/<file>")
-def internal_images(file):
-    try:
-        return flask.send_file(TOP_LEVEL_PATH / "images" / file)
-    except FileNotFoundError:
-        return NotFound()
+@app.route("/images/247bishops_symbol.png")
+def internal_images():
+    return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_symbol.png")
