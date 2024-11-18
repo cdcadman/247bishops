@@ -56,6 +56,7 @@ def internal_javascript(file):
     except FileNotFoundError:
         return NotFound()
 
+
 @app.route("/images/<file>")
 def internal_images(file):
     try:
