@@ -17,7 +17,8 @@ def edge():
 def firefox():
     options = wd.FirefoxOptions()
     options.add_argument("-headless")
-    return wd.Firefox(options=options)
+    service = wd.FirefoxService(executable_path="/snap/bin/geckodriver")
+    return wd.Firefox(options=options, service=service)
 
 
 @pytest.fixture(params=[chrome, edge, firefox])
