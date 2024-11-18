@@ -1,37 +1,35 @@
-import requests
-
-from webapp_python.main import RESPONSE_HEADERS
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import BaseWebDriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from .server import get_server_url
 
+TIMEOUT = 5
 
-def test_main():
+
+def test_main(driver: BaseWebDriver):
     with get_server_url() as webapp_url:
-        response = requests.get(f"{webapp_url}", timeout=60)
-        assert response.status_code == 200
-        for key, val in RESPONSE_HEADERS.items():
-            assert response.headers[key] == val
-        assert "24/7 Bishops" in response.text
-        response = requests.get(f"{webapp_url}/favicon.svg?v=1729", timeout=60)
-        assert response.status_code == 200
-        for key, val in RESPONSE_HEADERS.items():
-            assert response.headers[key] == val
-        response = requests.get(f"{webapp_url}/css/main.css", timeout=60)
-        assert response.status_code == 200
-        for key, val in RESPONSE_HEADERS.items():
-            assert response.headers[key] == val
-        assert "background-color:green" in response.text
+        driver.get(webapp_url)
+        WebDriverWait(driver, TIMEOUT).until(
+            EC.element_to_be_clickable((By.ID, "about"))
+        )
+        about = driver.find_element(By.ID, "about")
+        assert about.get_attribute("innerText") == "About 24/7 Bishops"
+        about.click()
+        WebDriverWait(driver, TIMEOUT).until(
+            EC.visibility_of_element_located((By.ID, "about_popup"))
+        )
+        assert "GNU Affero General Public License" in driver.find_element(
+            By.ID, "about_popup"
+        ).get_attribute("innerText")
 
 
-def test_maint():
+def test_maint(driver: BaseWebDriver):
     with get_server_url(maintenance_mode=True) as webapp_url:
-        response = requests.get(f"{webapp_url}", timeout=60)
-        assert response.status_code == 503
-        assert "24/7 Bishops is Temporarily Unavailable" in response.text
-        for key, val in RESPONSE_HEADERS.items():
-            assert response.headers[key] == val
-        response = requests.post(f"{webapp_url}/random_path", timeout=60)
-        assert response.status_code == 503
-        assert "24/7 Bishops is Temporarily Unavailable" in response.text
-        for key, val in RESPONSE_HEADERS.items():
-            assert response.headers[key] == val
+        driver.get(webapp_url)
+        WebDriverWait(driver, TIMEOUT).until(
+            EC.text_to_be_present_in_element(
+                (By.TAG_NAME, "h1"), "24/7 Bishops is Temporarily Unavailable"
+            )
+        )

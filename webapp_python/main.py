@@ -18,7 +18,7 @@ TOP_LEVEL_PATH = Path(__file__).parent.absolute().parent
 @app.before_request
 def maintenance_mode():
     if environ["MAINTENANCE_MODE"] == "1" and flask.request.path not in (
-        "/favicon.svg",
+        "/favicon.png",
         "/css/main.css",
     ):
         return flask.send_file(TOP_LEVEL_PATH / "html" / "maintenance.html"), 503
@@ -36,13 +36,23 @@ def main():
     return flask.send_file(TOP_LEVEL_PATH / "html" / "main.html")
 
 
-@app.route("/favicon.svg")
+@app.route("/favicon.png")
 def favicon():
     """If this is updated, you also need to increment the version in the link tag in the html file.
     See https://stackoverflow.com/questions/2208933/how-do-i-force-a-favicon-refresh"""
-    return flask.send_file(TOP_LEVEL_PATH / "html" / "Chess_tile_bl.svg")
+    return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_icon.png")
 
 
 @app.route("/css/main.css")
 def internal_css():
     return flask.send_file(TOP_LEVEL_PATH / "css" / "main.css")
+
+
+@app.route("/javascript/main.js")
+def internal_javascript():
+    return flask.send_file(TOP_LEVEL_PATH / "javascript" / "main.js")
+
+
+@app.route("/images/247bishops_symbol.png")
+def internal_images():
+    return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_symbol.png")
