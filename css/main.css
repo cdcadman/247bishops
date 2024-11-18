@@ -3,19 +3,30 @@ body {
 }
 h1 {
     color:blue;
-    text-align: center
+    text-align: center;
+}
+#landing_content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 menu.top {
     background-color: green;
     position:sticky;
     top:0;
     width:100%;
+    height:2em;
     padding: 0;
     margin: 0;
-    text-align: right;
 }
 li.menu {
     list-style-type: none;
+}
+li.left {
+    float: left;
+}
+li.right {
+    float: right;
 }
 li.menu button {
     font-size: 1.5em;
@@ -27,7 +38,7 @@ li.menu button:hover {
     background-color: lightgreen;
 }
 li.menu img {
-    max-height: 1.5em;
+    max-height: 2em;
 }
 div.popup {
     position: fixed;

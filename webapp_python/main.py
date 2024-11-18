@@ -44,9 +44,6 @@ def favicon():
     return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_icon.png")
 
 
-# TODO: Add icon to webpage, upper left and and landing page.
-
-
 @app.route("/css/main.css")
 def internal_css():
     return flask.send_file(TOP_LEVEL_PATH / "css" / "main.css")

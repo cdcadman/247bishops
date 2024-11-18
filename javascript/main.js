@@ -10,4 +10,3 @@ document.getElementById("close_about_popup").addEventListener('click',
         document.getElementById("content").classList.remove("blur");
     }
 );
-
