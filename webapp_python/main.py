@@ -76,3 +76,4 @@ def front_end_deps(package, file):
 # TODO: Comment on chess.js in "about".
 # TODO: Close issue with PR.
 # TODO: Comment about CSP.
+# TODO: Add notes to contributing.md
