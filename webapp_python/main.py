@@ -60,3 +60,19 @@ def internal_javascript(file):
 @app.route("/images/247bishops_symbol.png")
 def internal_images():
     return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_symbol.png")
+
+
+@app.route("/front_end_deps/<package>/<file>")
+def front_end_deps(package, file):
+    try:
+        return flask.send_file(TOP_LEVEL_PATH / "front_end_deps" / package / file)
+    except FileNotFoundError:
+        return NotFound()
+
+
+# TODO: Forward and back buttons.
+# TODO: Tests
+# TODO: Add front end installation to workflow.
+# TODO: Comment on chess.js in "about".
+# TODO: Close issue with PR.
+# TODO: Comment about CSP.

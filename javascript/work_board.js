@@ -1,12 +1,9 @@
+import {Chess} from '/front_end_deps/chess.js-0.13.4/chess.js'
+
+let chess = new Chess();
 const canvas = document.getElementById("work_board_canvas");
 const context = canvas.getContext("2d");
-const orig_font = context.font;
 let scaleFactor = 1;
-let board = {
-    0: "R", 1: "N", 2: "B", 3: "Q", 4: "K", 5: "B", 6: "N", 7: "R", 8: "P", 9: "P", 10: "P", 11: "P", 12: "P", 13: "P", 14: "P", 15: "P",
-    63: "r", 62: "n", 61: "b", 60: "k", 59: "q", 58: "b", 57: "n", 56: "r", 55: "p", 54: "p", 53: "p", 52: "p", 51: "p", 50: "p", 49: "p", 48: "p"
-};
-let move_number = 0; // This is ply - it increments by one for each white and black move.
 let last_move_square = null;
 let from_square = null;
 const pieces = {
@@ -54,9 +51,10 @@ function draw_board(){
                 context.fillStyle = "aqua";
                 context.fillRect(1 + 32*j, 1 + 32*i, 30, 30);
             }
-            if (board[square] != undefined) {
+            const piece = piece_on_square(square);
+            if (piece != undefined) {
                 context.fillStyle = "black";
-                context.fillText(pieces[board[square]], 4 + 32*j, 26 + 32*i, 28);
+                context.fillText(piece, 4 + 32*j, 26 + 32*i, 28);
             }
         }
     }
@@ -77,6 +75,18 @@ function square_name(square) {
     return String.fromCharCode(97 + column) + String.fromCharCode(49 + row);
 }
 
+function piece_on_square(square) {
+    const piece = chess.get(square_name(square));
+    if (piece == undefined) {
+        return undefined;
+    }
+    if (piece.color == "b") {
+        return pieces[piece.type];
+    } else {
+        return pieces[piece.type.toUpperCase()];
+    }
+}
+
 function handle_click(event) {
     const scaleX = event.offsetX / scaleFactor;
     const scaleY = event.offsetY / scaleFactor;
@@ -94,16 +104,16 @@ function handle_click(event) {
             calc_scale();
             return;
         }
-        context.fillStyle = "black";
-        context.fillText(pieces[board[from_square]], 4 + 32*column, 26 + 32*row, 28);
-        promote = "";
-        if (board[from_square] == "P" || board[from_square] == "p") {
+        let move = {from: square_name(from_square), to: square_name(square)};
+        const from_piece = piece_on_square(from_square)
+        if (from_piece == pieces["P"] || from_piece == pieces["p"]) {
             if (row == 7 || row == 0) {
-                promote = window.prompt("Promotion piece (q, r, b, or n)?");
+                move["promotion"] = window.prompt("Promotion piece (q, r, b, or n)?");
             }
         }
-        uci = square_name(from_square) + square_name(square) + promote;
+        chess.move(move);
         from_square = null;
+        calc_scale();
     }
 }
 

@@ -23,3 +23,6 @@ instance/
 
 # Virtual environment for building deterministic requirements
 venv/
+
+# Front end javascript and css dependencies
+front_end_deps/
