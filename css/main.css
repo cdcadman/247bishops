@@ -5,6 +5,9 @@ h1 {
     color:blue;
     text-align: center;
 }
+div.hidden {
+    display: none;
+}
 #landing_content img {
     display: block;
     margin-left: auto;
@@ -33,6 +36,7 @@ li.menu button {
     background-color: green;
     color: white;
     border: none;
+    margin-left: 2em;
 }
 li.menu button:hover {
     background-color: lightgreen;
@@ -62,4 +66,7 @@ div.popup p a {
 }
 div.blur {
     filter: blur(1rem);
+}
+#work_board_holder {
+    width: 50%;
 }
