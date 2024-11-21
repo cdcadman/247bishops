@@ -7,7 +7,6 @@ const move_list = document.getElementById("move_list");
 const fen = document.getElementById("fen");
 context.strokeStyle = "black";
 let scaleFactor = 1;
-let last_move_square = null;
 let from_square = null;
 const pieces = {
     "K": "\u2654",
@@ -38,18 +37,14 @@ function draw_board(){
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
             let square = 8*i + j;
-            let highlight_square = last_move_square;
-            if (from_square != null) {
-                highlight_square = from_square;
-            }
             if ((i + j) % 2 == 0) {
-                if (square == highlight_square) {
+                if (square == from_square) {
                     context.fillStyle = "yellow";
                 } else {
                     context.fillStyle = "white";
                 }
                 context.fillRect(1 + 32*j, 1 + 32*i, 30, 30);
-            } else if (square == highlight_square) {
+            } else if (square == from_square) {
                 context.fillStyle = "aqua";
                 context.fillRect(1 + 32*j, 1 + 32*i, 30, 30);
             }

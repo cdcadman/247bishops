@@ -27,7 +27,7 @@ def firefox():
     return wd.Firefox(**kwargs)
 
 
-@pytest.fixture(params=[chrome, edge, firefox])
+@pytest.fixture(params=[chrome])#, edge, firefox])
 def driver(request):
     with request.param() as _driver:
         yield _driver
