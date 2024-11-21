@@ -3,6 +3,8 @@ import {Chess, SQUARES} from '/front_end_deps/chess.js-0.13.4/chess.js'
 let chess = new Chess();
 const canvas = document.getElementById("work_board_canvas");
 const context = canvas.getContext("2d");
+const move_list = document.getElementById("move_list");
+const fen = document.getElementById("fen");
 context.strokeStyle = "black";
 let scaleFactor = 1;
 let last_move_square = null;
@@ -58,6 +60,8 @@ function draw_board(){
             }
         }
     }
+    move_list.innerHTML = chess.pgn();
+    fen.setAttribute("value", chess.fen());
 }
 
 function calc_scale() {
@@ -66,6 +70,8 @@ function calc_scale() {
     canvas.setAttribute("width", dimension);
     canvas.setAttribute("height", dimension);
     context.scale(scaleFactor, scaleFactor);
+    move_list.style.height = dimension + 'px';
+    fen.style.width = dimension + 'px';
     draw_board();
 }
 

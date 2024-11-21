@@ -70,7 +70,6 @@ def front_end_deps(package, file):
         return NotFound()
 
 
-# TODO: Add FEN and move list.
 # TODO: Forward and back buttons.
 # TODO: Tests
 # TODO: Add front end installation to workflow.

@@ -76,3 +76,6 @@ div.blur {
     background: lime;
     cursor: pointer;
 }
+#move_list {
+    resize: none;
+}
