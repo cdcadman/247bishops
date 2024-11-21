@@ -1,8 +1,9 @@
-import {Chess} from '/front_end_deps/chess.js-0.13.4/chess.js'
+import {Chess, SQUARES} from '/front_end_deps/chess.js-0.13.4/chess.js'
 
 let chess = new Chess();
 const canvas = document.getElementById("work_board_canvas");
 const context = canvas.getContext("2d");
+context.strokeStyle = "black";
 let scaleFactor = 1;
 let last_move_square = null;
 let from_square = null;
@@ -31,11 +32,10 @@ function draw_board(){
         context.moveTo(0, x);
         context.lineTo(256, x);
     }
-    context.strokeStyle = "black";
     context.font = "30px FreeSerif";
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
-            let square = 8*(7 - i) + j;
+            let square = 8*i + j;
             let highlight_square = last_move_square;
             if (from_square != null) {
                 highlight_square = from_square;
@@ -51,10 +51,10 @@ function draw_board(){
                 context.fillStyle = "aqua";
                 context.fillRect(1 + 32*j, 1 + 32*i, 30, 30);
             }
-            const piece = piece_on_square(square);
+            const piece = chess.get(SQUARES[square]);
             if (piece != undefined) {
                 context.fillStyle = "black";
-                context.fillText(piece, 4 + 32*j, 26 + 32*i, 28);
+                context.fillText(piece_character(piece), 4 + 32*j, 26 + 32*i, 28);
             }
         }
     }
@@ -69,17 +69,7 @@ function calc_scale() {
     draw_board();
 }
 
-function square_name(square) {
-    const column = square % 8;
-    const row = (square - column) / 8;
-    return String.fromCharCode(97 + column) + String.fromCharCode(49 + row);
-}
-
-function piece_on_square(square) {
-    const piece = chess.get(square_name(square));
-    if (piece == undefined) {
-        return undefined;
-    }
+function piece_character(piece) {
     if (piece.color == "b") {
         return pieces[piece.type];
     } else {
@@ -93,7 +83,7 @@ function handle_click(event) {
     const column = Math.floor(scaleX / 32);
     const row = Math.floor(scaleY / 32);
     if (row >= 0 && row <= 7 && column >= 0 && column <= 7) {
-        let square = 8*(7 - row) + column;
+        let square = 8*row + column;
         if (from_square == null) {
             from_square = square;
             calc_scale();
@@ -104,9 +94,9 @@ function handle_click(event) {
             calc_scale();
             return;
         }
-        let move = {from: square_name(from_square), to: square_name(square)};
-        const from_piece = piece_on_square(from_square)
-        if (from_piece == pieces["P"] || from_piece == pieces["p"]) {
+        let move = {from: SQUARES[from_square], to: SQUARES[square]};
+        const from_piece = chess.get(SQUARES[from_square])
+        if (from_piece.type == "p") {
             if (row == 7 || row == 0) {
                 move["promotion"] = window.prompt("Promotion piece (q, r, b, or n)?");
             }
