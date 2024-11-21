@@ -1,2 +1,2 @@
 [run]
-omit = tests/http_obs.py
+omit = tests/http_obs.py, install_front_end_deps/*

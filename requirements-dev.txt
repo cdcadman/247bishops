@@ -8,3 +8,4 @@ pip-audit>=2.7.0
 bandit>=1.7.5
 licensecheck>=2024
 selenium>=4.13.0
+requests>=2.32.3

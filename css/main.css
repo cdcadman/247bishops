@@ -5,6 +5,9 @@ h1 {
     color:blue;
     text-align: center;
 }
+div.hidden {
+    display: none;
+}
 #landing_content img {
     display: block;
     margin-left: auto;
@@ -33,6 +36,7 @@ li.menu button {
     background-color: green;
     color: white;
     border: none;
+    margin-left: 2em;
 }
 li.menu button:hover {
     background-color: lightgreen;
@@ -50,16 +54,31 @@ div.popup {
     text-align: center;
     padding: 20px;
     border-radius: 5px;
-    opacity: 0;
+    display: none;
     transition: opacity 0.3s ease-in-out;
     font-size: 1.5em;
 }
 div.show {
-    opacity: 1;
+    display: block;
 }
 div.popup p a {
     color: white;
 }
 div.blur {
     filter: blur(1rem);
+}
+#work_board_content {
+    text-align: center;
+}
+#work_board_canvas {
+    width: 256;
+    height: 256;
+    background: lime;
+    cursor: pointer;
+}
+#move_list {
+    resize: none;
+}
+#work_board_back {
+    font-size: 1.5em;
 }

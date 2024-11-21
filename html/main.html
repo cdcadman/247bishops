@@ -10,18 +10,31 @@
     <menu class="top">
         <li class="menu left"><img src="/images/247bishops_symbol.png" /></li>
         <li class="menu right"><button id="about">About 24/7 Bishops</button></li>
+        <li class="menu right"><button id="work_board">Work Board</button></li>
     </menu>
-    <div id="landing_content">
+    <div id="landing_content" class="page">
         <h1>Coming soon...</h1>
         <img src="/images/247bishops_symbol.png" />
+    </div>
+    <div id="work_board_content" class="page hidden">
+        <h1>Soon you will be able to save your game and exchange analysis with others.</h1>
+        <canvas id="work_board_canvas"></canvas>
+        <textarea id="move_list" disabled>Move List</textarea>
+        <div>
+            <label for="fen">FEN </label>
+            <input id="fen" disabled value="fen"/>
+        </div>
+        <div><button id="work_board_back">Back</button></div>
     </div>
 </div>
 <div id="about_popup" class="popup">
     <p>24/7 bishops is a website where you can upload your chess games and collaborate on analysis with other chess players located around the world asynchronously!
-        It is an <a href="https://github.com/cdcadman/247bishops" target="_blank">open source project</a> licensed under the GNU Affero General Public License.
-    </p>
+        It is an <a href="https://github.com/cdcadman/247bishops" target="_blank">open source project</a> licensed under the GNU Affero General Public License.</p>
+    <p>The front-end uses <a href="https://github.com/jhlywa/chess.js/blob/master/LICENSE">chess.js</a>.</p>
     <button id="close_about_popup">Close</button>
 </div>
 <script src="/javascript/main.js"></script>
+<script src="/front_end_deps/chess.js-0.13.4/chess.js" type="module"></script>
+<script src="/javascript/work_board.js" type="module"></script>
 </body>
 </html>

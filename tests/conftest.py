@@ -7,12 +7,16 @@ from selenium import webdriver as wd
 def chrome():
     options = wd.ChromeOptions()
     options.add_argument("--headless=new")
+    options.add_argument("--window-size=600,1000")
     return wd.Chrome(options=options)
 
 
 def edge():
     options = wd.EdgeOptions()
     options.add_argument("--headless=new")
+    options.add_argument("--window-size=600,1000")
+    options.add_argument("--force-device-scale-factor=1.25")
+    options.add_argument("--device-scale-factor=1.25")
     return wd.Edge(options=options)
 
 
