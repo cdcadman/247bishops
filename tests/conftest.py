@@ -7,12 +7,14 @@ from selenium import webdriver as wd
 def chrome():
     options = wd.ChromeOptions()
     options.add_argument("--headless=new")
+    options.add_argument("--window-size=600,1000")
     return wd.Chrome(options=options)
 
 
 def edge():
     options = wd.EdgeOptions()
     options.add_argument("--headless=new")
+    options.add_argument("--window-size=600,1000")
     return wd.Edge(options=options)
 
 
@@ -27,7 +29,7 @@ def firefox():
     return wd.Firefox(**kwargs)
 
 
-@pytest.fixture(params=[chrome])#, edge, firefox])
+@pytest.fixture(params=[chrome, edge, firefox])
 def driver(request):
     with request.param() as _driver:
         yield _driver

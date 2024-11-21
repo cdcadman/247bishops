@@ -42,10 +42,6 @@ def test_work_board(driver: BaseWebDriver):
         click_multiple(driver, ["e2", "e4"], "1. e4")
         click_multiple(driver, ["e4", "e2"], "1. e4")
         click_multiple(driver, ["e7", "e5"], "1. e4 e5")
-        driver.find_element(By.ID, "work_board_back").click()
-        WebDriverWait(driver, TIMEOUT).until(
-            lambda d: move_list.get_attribute("innerHTML") == "1. e4")
-        click_multiple(driver, ["e7", "e5"], "1. e4 e5")
         click_multiple(driver, ["f2", "f4"], "1. e4 e5 2. f4")
         click_multiple(driver, ["f7", "f5"], "1. e4 e5 2. f4 f5")
         click_multiple(driver, ["e4", "f5"], "1. e4 e5 2. f4 f5 3. exf5")
@@ -70,3 +66,6 @@ def test_work_board(driver: BaseWebDriver):
         alert.accept()
         WebDriverWait(driver, TIMEOUT).until(
             lambda d: move_list.get_attribute("innerHTML") == "1. e4 e5 2. f4 f5 3. exf5 exf4 4. f6 f3 5. fxg7 fxg2 6. gxh8=Q gxh1=N")
+        driver.find_element(By.ID, "work_board_back").click()
+        WebDriverWait(driver, TIMEOUT).until(
+            lambda d: move_list.get_attribute("innerHTML") == "1. e4 e5 2. f4 f5 3. exf5 exf4 4. f6 f3 5. fxg7 fxg2 6. gxh8=Q")
