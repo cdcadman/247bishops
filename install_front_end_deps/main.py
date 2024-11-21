@@ -27,7 +27,7 @@ def install_directory() -> Path:
 def main():
     warnings.simplefilter("error")
     install_dir = install_directory()
-    with urlopen(
+    with urlopen(  # nosec B310
         "https://github.com/jhlywa/chess.js/archive/refs/tags/v0.13.4.zip"
     ) as f:
         file_data = f.read()
