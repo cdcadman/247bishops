@@ -41,8 +41,40 @@ while True:
     time.sleep(0.1) # pragma: no cover
 ```
 
-## Adding packages
+## Adding python packages
 
 To add a python package, place it in `base_reqs.txt` with no version specifier.  Then run `calc_deterministic.sh` to update `requirements.txt`.
 
-If you are adding a javascript package in an html file, please ensure that it has an open source license compatible with the GNU AGPL 3.
+## Adding front end 3rd party dependencies (javascript/css)
+
+This project uses its own python code to manage front end 3rd party dependencies.
+
+* Dependencies are saved in the `front_end_deps` folder, which is ignored by git.
+* Installation is performed by the `install_js` local python package, which is run as part of the testing and deployment workflows.
+
+To add or update a dependency, edit the `install_front_end_deps` local python package.  Whenever you run the package (`python -m install_front_end_deps`),
+it should delete the contents of the `front_end_deps` folder, if any, and reinstall everything.  `install_front_end_deps` should not depend on any 3rd party python packages.
+
+Licenses for the dependencies are saved in the `install_front_end_deps` folder.  They are checked
+against the source when the source is downloaded, mainly as a form of documentation.
+
+Attribution for front end dependencies should be added to the `About 24/7 Bishops` popup box on the landing webpage.
+
+Hashes for the files should be checked each time they are downloaded, to ensure that
+the source has not been replaced with a malicious version.
+
+## Website security
+
+Since this website hosts information provided by users, XSS attacks pose a
+significant risk.  Recommendations for improving its security are welcomed.
+The current strategy is as follows.
+
+* Incorporate all recommendations of the
+[HTTP Observatory project](https://developer.mozilla.org/en-US/observatory).  This is
+[automatically](.github/workflows/http_obs.yml) checked every week.
+* Host all 3rd party front end dependencies in the webapp.
+Check their hashes when they are downloaded during the deployment workflow.
+* Check all python dependencies for vulnerabilities using `pip-audit`.
+* Check all python code for vulneravbilities using `bandit`.
+* Avoid allowing arbitrary path traversal in flask routes.
+* Take care to avoid SQL injections and HTML injections from user-provided data.

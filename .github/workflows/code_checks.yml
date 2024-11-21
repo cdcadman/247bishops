@@ -12,6 +12,8 @@ jobs:
           uses: actions/setup-python@v5
           with:
             python-version: '3.12'
+        - name: Install front end dependencies
+          run: python3.12 -m install_front_end_deps
         - name: Install python packages
           run: |
             python3.12 -m pip install --upgrade pip

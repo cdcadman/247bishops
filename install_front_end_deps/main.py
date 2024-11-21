@@ -1,3 +1,5 @@
+"""This should not require any 3rd party python packages, because it will run in the deployment workflow without any `pip install`."""
+
 import shutil
 import warnings
 from hashlib import sha3_512

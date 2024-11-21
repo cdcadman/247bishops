@@ -68,11 +68,3 @@ def front_end_deps(package, file):
         return flask.send_file(TOP_LEVEL_PATH / "front_end_deps" / package / file)
     except FileNotFoundError:
         return NotFound()
-
-
-# TODO: Tests
-# TODO: Add front end installation to workflow.
-# TODO: Comment on chess.js in "about".
-# TODO: Close issue with PR.
-# TODO: Comment about CSP.
-# TODO: Add notes to contributing.md
