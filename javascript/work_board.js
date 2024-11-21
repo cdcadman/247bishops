@@ -116,3 +116,7 @@ function handle_click(event) {
 window.addEventListener("resize", calc_scale);
 canvas.addEventListener("click", handle_click);
 window.addEventListener("load", (event) => {calc_scale();})
+document.getElementById("work_board_back").addEventListener(
+    "click",
+    () => {chess.undo(); calc_scale();}
+)

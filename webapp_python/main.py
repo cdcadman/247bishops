@@ -70,7 +70,6 @@ def front_end_deps(package, file):
         return NotFound()
 
 
-# TODO: Forward and back buttons.
 # TODO: Tests
 # TODO: Add front end installation to workflow.
 # TODO: Comment on chess.js in "about".
