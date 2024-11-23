@@ -24,6 +24,11 @@ def install_directory() -> Path:
     return path
 
 
+# TODO: Add chess pieces from https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces
+# TODO: Mention images in contributing.md
+# TODO: See if the browser can cache them
+
+
 def main():
     warnings.simplefilter("error")
     install_dir = install_directory()
