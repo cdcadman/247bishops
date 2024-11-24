@@ -7,6 +7,7 @@ from hashlib import sha3_512
 from io import BytesIO
 from pathlib import Path
 from urllib.request import urlopen
+from xml.etree import ElementTree as ET  # nosec B405
 from zipfile import ZipFile
 
 
@@ -55,6 +56,15 @@ def download_file(url: str, expected_hex: str):
     return file_data
 
 
+def parse_commons_api(image: str) -> tuple[str, str]:
+    api_url = "https://magnus-toolserver.toolforge.org/commonsapi.php"
+    with urlopen(f"{api_url}?image={image}") as f:  # nosec B310
+        xml_root = ET.fromstring(f.read().decode())  # nosec B314
+    url = xml_root.find("./file/urls/file").text
+    lic = xml_root.find("./licenses/license/name").text
+    return url, lic
+
+
 def chess_js():
     file_data = download_file(
         "https://github.com/jhlywa/chess.js/archive/refs/tags/v0.13.4.zip",
@@ -69,6 +79,24 @@ def chess_js():
             chess.extract("chess.js-0.13.4/chess.js", install_directory())
 
 
+def chess_pieces():
+    pieces = [
+        (
+            "Chess_kdt45.svg",
+            "6f701881ae5182ad97036b85495984265f28cf352677d696afbab646b92a7871c148f598ddf5589c293477bb0a22fb002b284ea401b7bdedc2c9776255f67c6a",
+        )
+    ]
+    piece_dir = install_directory() / "pieces"
+    piece_dir.mkdir()
+    for filename, expected_hex in pieces:
+        url, lic = parse_commons_api(filename)
+        if lic != "CC-BY-SA-3.0-migrated":
+            raise WrongLicense(f"Expected CC-BY-SA-3.0-migrated instead of {lic}")
+        file_data = download_file(f"{url}?download", expected_hex)
+        (piece_dir / filename).write_bytes(file_data)
+
+
 def main():
     warnings.simplefilter("error")
     chess_js()
+    chess_pieces()
