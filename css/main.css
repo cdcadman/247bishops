@@ -67,18 +67,3 @@ div.popup p a {
 div.blur {
     filter: blur(1rem);
 }
-#work_board_content {
-    text-align: center;
-}
-#work_board_canvas {
-    width: 256;
-    height: 256;
-    background: lime;
-    cursor: pointer;
-}
-#move_list {
-    resize: none;
-}
-#work_board_back {
-    font-size: 1.5em;
-}

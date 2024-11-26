@@ -1,0 +1,28 @@
+#work_board_content {
+    text-align: center;
+}
+#move_list {
+    resize: none;
+}
+#work_board_back {
+    font-size: 1.5em;
+}
+#work_board_table img {
+    margin: 0;
+    padding: 0;
+}
+img.dark {
+    background-color: lime;
+}
+img.light {
+    background-color: white;
+}
+img.dark.from {
+    background-color: aqua;
+}
+img.light.from {
+    background-color: yellow;
+}
+#work_board_table {
+    margin: auto;
+}

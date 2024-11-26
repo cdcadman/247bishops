@@ -20,27 +20,30 @@ const pieces = {
     "p": "Chess_pdt45.svg",
 }
 
+for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+        const square = 8*i + j;
+        const img = document.getElementById("work_board_" + square);
+        if ((i + j) % 2 == 0) {
+            img.classList.add("light");
+        } else {
+            img.classList.add("dark");
+        }
+    }
+}
+
 function draw_board(){
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
             const square = 8*i + j;
             const img = document.getElementById("work_board_" + square);
-            if ((i + j) % 2 == 0) {
-                if (square == from_square) {
-                    img.setAttribute("background-color", "yellow");
-                } else {
-                    context.fillStyle = "white";
-                }
-                context.fillRect(1 + 32*j, 1 + 32*i, 30, 30);
-            } else if (square == from_square) {
-                context.fillStyle = "aqua";
-                context.fillRect(1 + 32*j, 1 + 32*i, 30, 30);
+            if (square == from_square) {
+                img.classList.add("from");
+            } else {
+                img.classList.remove("from");
             }
             const piece = chess.get(SQUARES[square]);
-            if (piece != undefined) {
-                context.fillStyle = "black";
-                context.fillText(piece_character(piece), 4 + 32*j, 26 + 32*i, 28);
-            }
+            img.setAttribute("src", piece_url(piece));
         }
     }
     move_list.innerHTML = chess.pgn();
@@ -59,11 +62,13 @@ function calc_scale() {
     draw_board();
 }
 
-function piece_character(piece) {
-    if (piece.color == "b") {
-        return pieces[piece.type];
+function piece_url(piece) {
+    if (piece == undefined) {
+        return "/images/blank.png";
+    } else if (piece.color == "b") {
+        return piece_dir + pieces[piece.type];
     } else {
-        return pieces[piece.type.toUpperCase()];
+        return piece_dir + pieces[piece.type.toUpperCase()];
     }
 }
 
@@ -98,7 +103,7 @@ function handle_click(event) {
 }
 
 window.addEventListener("resize", calc_scale);
-canvas.addEventListener("click", handle_click);
+//canvas.addEventListener("click", handle_click);
 window.addEventListener("load", (event) => {calc_scale();})
 document.getElementById("work_board_back").addEventListener(
     "click",
