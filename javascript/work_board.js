@@ -1,11 +1,8 @@
 import {Chess, SQUARES} from '/front_end_deps/chess.js-0.13.4/chess.js'
 
 let chess = new Chess();
-const table = document.getElementById("work_board_table");
 const move_list = document.getElementById("move_list");
 const fen = document.getElementById("fen");
-context.strokeStyle = "black";
-let scaleFactor = 1;
 let from_square = null;
 const piece_dir = "/front_end_deps/pieces/"
 const pieces = {
@@ -24,22 +21,13 @@ const pieces = {
 }
 
 function draw_board(){
-    for (let x = 0; x <= 256; x += 32) {
-        context.moveTo(x, 0);
-        context.lineTo(x, 256);
-    }
-
-    for (let x = 0; x <=256; x += 32) {
-        context.moveTo(0, x);
-        context.lineTo(256, x);
-    }
-    context.font = "30px FreeSerif";
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
-            let square = 8*i + j;
+            const square = 8*i + j;
+            const img = document.getElementById("work_board_" + square);
             if ((i + j) % 2 == 0) {
                 if (square == from_square) {
-                    context.fillStyle = "yellow";
+                    img.setAttribute("background-color", "yellow");
                 } else {
                     context.fillStyle = "white";
                 }
@@ -61,10 +49,11 @@ function draw_board(){
 
 function calc_scale() {
     const dimension = Math.min(window.innerHeight*0.75, window.innerWidth*0.75);
-    scaleFactor = dimension / 256;
-    canvas.setAttribute("width", dimension);
-    canvas.setAttribute("height", dimension);
-    context.scale(scaleFactor, scaleFactor);
+    for (let i=0; i<64; i++) {
+        const img = document.getElementById("work_board_" + i);
+        img.setAttribute("width", dimension / 8);
+        img.setAttribute("height", dimension / 8);
+    }
     move_list.style.height = dimension + 'px';
     fen.style.width = dimension + 'px';
     draw_board();
