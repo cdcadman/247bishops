@@ -1,26 +1,26 @@
 import {Chess, SQUARES} from '/front_end_deps/chess.js-0.13.4/chess.js'
 
 let chess = new Chess();
-const canvas = document.getElementById("work_board_canvas");
-const context = canvas.getContext("2d");
+const table = document.getElementById("work_board_table");
 const move_list = document.getElementById("move_list");
 const fen = document.getElementById("fen");
 context.strokeStyle = "black";
 let scaleFactor = 1;
 let from_square = null;
+const piece_dir = "/front_end_deps/pieces/"
 const pieces = {
-    "K": "\u2654",
-    "Q": "\u2655",
-    "R": "\u2656",
-    "B": "\u2657",
-    "N": "\u2658",
-    "P": "\u2659",
-    "k": "\u265A",
-    "q": "\u265B",
-    "r": "\u265C",
-    "b": "\u265D",
-    "n": "\u265E",
-    "p": "\u265F",
+    "K": "Chess_klt45.svg",
+    "Q": "Chess_qlt45.svg",
+    "R": "Chess_rlt45.svg",
+    "B": "Chess_blt45.svg",
+    "N": "Chess_nlt45.svg",
+    "P": "Chess_plt45.svg",
+    "k": "Chess_kdt45.svg",
+    "q": "Chess_qdt45.svg",
+    "r": "Chess_rdt45.svg",
+    "b": "Chess_bdt45.svg",
+    "n": "Chess_ndt45.svg",
+    "p": "Chess_pdt45.svg",
 }
 
 function draw_board(){
