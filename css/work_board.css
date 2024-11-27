@@ -35,9 +35,3 @@ img.dark {
 img.light {
     background-color: white;
 }
-img.dark.from {
-    background-color: aqua;
-}
-img.light.from {
-    background-color: yellow;
-}
