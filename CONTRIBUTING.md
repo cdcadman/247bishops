@@ -45,12 +45,12 @@ while True:
 
 To add a python package, place it in `base_reqs.txt` with no version specifier.  Then run `calc_deterministic.sh` to update `requirements.txt`.
 
-## Adding front end 3rd party dependencies (javascript/css)
+## Adding front end 3rd party dependencies (javascript/css/images)
 
 This project uses its own python code to manage front end 3rd party dependencies.
 
 * Dependencies are saved in the `front_end_deps` folder, which is ignored by git.
-* Installation is performed by the `install_js` local python package, which is run as part of the testing and deployment workflows.
+* Installation is performed by the `install_front_end_deps` local python package, which is run as part of the testing and deployment workflows.
 
 To add or update a dependency, edit the `install_front_end_deps` local python package.  Whenever you run the package (`python -m install_front_end_deps`),
 it should delete the contents of the `front_end_deps` folder, if any, and reinstall everything.  `install_front_end_deps` should not depend on any 3rd party python packages.

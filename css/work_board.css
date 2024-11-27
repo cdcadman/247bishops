@@ -1,0 +1,43 @@
+#work_board_content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+#work_board_content.hidden {
+    display: none;
+}
+#board_and_move_list {
+    align-self: center;
+}
+#work_board_table {
+    float: left;
+    border-collapse: collapse;
+}
+#move_list {
+    resize: none;
+    float: left;
+}
+#work_board_back {
+    font-size: 1.5em;
+}
+#work_board_table td {
+    margin: 0;
+    padding: 0;
+}
+#work_board_table img {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+img.dark {
+    background-color: lime;
+}
+img.light {
+    background-color: white;
+}
+img.dark.from {
+    background-color: aqua;
+}
+img.light.from {
+    background-color: yellow;
+}

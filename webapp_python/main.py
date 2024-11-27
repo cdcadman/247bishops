@@ -44,9 +44,12 @@ def favicon():
     return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_icon.png")
 
 
-@app.route("/css/main.css")
-def internal_css():
-    return flask.send_file(TOP_LEVEL_PATH / "css" / "main.css")
+@app.route("/css/<file>")
+def internal_css(file):
+    try:
+        return flask.send_file(TOP_LEVEL_PATH / "css" / file)
+    except FileNotFoundError:
+        return NotFound()
 
 
 @app.route("/javascript/<file>")
@@ -57,9 +60,12 @@ def internal_javascript(file):
         return NotFound()
 
 
-@app.route("/images/247bishops_symbol.png")
-def internal_images():
-    return flask.send_file(TOP_LEVEL_PATH / "images" / "247bishops_symbol.png")
+@app.route("/images/<file>")
+def internal_images(file):
+    try:
+        return flask.send_file(TOP_LEVEL_PATH / "images" / file)
+    except FileNotFoundError:
+        return NotFound()
 
 
 @app.route("/front_end_deps/<package>/<file>")
