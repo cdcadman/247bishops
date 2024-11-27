@@ -74,9 +74,6 @@ def chess_js():
             chess.extract("chess.js-0.13.4/chess.js", install_directory())
 
 
-# TODO: Set classnames to get desired background colors.
-
-
 def chess_pieces():
     pieces = [
         (

@@ -1,4 +1,3 @@
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import BaseWebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,15 +11,7 @@ TIMEOUT = 5
 def click(driver: BaseWebDriver, square: str):
     row = 8 - int(square[1])
     column = ord(square[0]) - 97
-    canvas = driver.find_element(By.ID, "work_board_canvas")
-    rect = canvas.rect
-    assert rect["height"] == rect["width"]
-    scale_factor = rect["height"] / 256
-    ActionChains(driver).move_to_element_with_offset(
-        canvas,
-        scale_factor * (16 + column * 32 - 136),
-        scale_factor * (16 + row * 32 - 136),
-    ).click().perform()
+    driver.find_element(By.ID, f"work_board_{8*row+column}").click()
 
 
 def click_multiple(driver: BaseWebDriver, squares: list[str], check_move_list: str):
@@ -38,7 +29,7 @@ def test_work_board(driver: BaseWebDriver):
         )
         driver.find_element(By.ID, "work_board").click()
         WebDriverWait(driver, TIMEOUT).until(
-            EC.visibility_of_element_located((By.ID, "work_board_canvas"))
+            EC.visibility_of_element_located((By.ID, "work_board_table"))
         )
         move_list = driver.find_element(By.ID, "move_list")
         click_multiple(driver, ["e2", "e4"], "1. e4")
