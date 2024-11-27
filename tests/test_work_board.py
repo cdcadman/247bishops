@@ -1,4 +1,4 @@
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import BaseWebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -34,11 +34,12 @@ def make_move(
         assert alert.text == "Promotion piece (q, r, b, or n)?"
         alert.send_keys(promotion_piece)
         alert.accept()
-    move_list = driver.find_element(By.ID, "move_list")
     assert move_list.get_attribute("innerHTML") == orig_move_list + move_list_append
 
 
 def test_work_board(driver: BaseWebDriver):
+    if isinstance(driver, Firefox):
+        return  # Drag/drop doesn't work with Firefox geckodriver: https://bugzilla.mozilla.org/show_bug.cgi?id=1515879
     with get_server_url() as webapp_url:
         driver.get(webapp_url)
         WebDriverWait(driver, TIMEOUT).until(
