@@ -3,7 +3,6 @@ import {Chess, SQUARES} from '/front_end_deps/chess.js-0.13.4/chess.js'
 let chess = new Chess();
 const move_list = document.getElementById("move_list");
 const fen = document.getElementById("fen");
-let from_square = null;
 const piece_dir = "/front_end_deps/pieces/"
 const pieces = {
     "K": "Chess_klt45.svg",
@@ -37,11 +36,6 @@ function draw_board(){
         for (let j = 0; j < 8; j++) {
             const square = 8*i + j;
             const img = document.getElementById("work_board_" + square);
-            if (square == from_square) {
-                img.classList.add("from");
-            } else {
-                img.classList.remove("from");
-            }
             const piece = chess.get(SQUARES[square]);
             img.setAttribute("src", piece_url(piece));
         }
@@ -72,18 +66,28 @@ function piece_url(piece) {
     }
 }
 
-function handle_click(event) {
+function handle_drag_start(event) {
     const square = parseInt(event.target.id.split("_")[2]);
-    if (from_square == null) {
-        from_square = square;
-        calc_scale();
-        return;
+    const piece = chess.get(SQUARES[square]);
+    if (piece != undefined) {
+        event.dataTransfer.setData("text", square.toString());
+        const img = new Image(event.target.width, event.target.height);
+        img.src = piece_url(piece);
+        event.target.setAttribute("src", piece_url(undefined));
+        event.dataTransfer.setDragImage(img, event.target.width / 4, event.target.height / 4);
+    } else {
+        event.preventDefault();
     }
-    if (from_square == square) {
-        from_square = null;
-        calc_scale();
-        return;
-    }
+}
+
+function handle_drag_over(event) {
+    event.preventDefault();
+}
+
+function handle_drop(event) {
+    event.preventDefault();
+    const from_square = parseInt(event.dataTransfer.getData("text"));
+    const square = parseInt(event.target.id.split("_")[2]);
     let move = {from: SQUARES[from_square], to: SQUARES[square]};
     const from_piece = chess.get(SQUARES[from_square])
     if (from_piece.type == "p") {
@@ -93,15 +97,22 @@ function handle_click(event) {
         }
     }
     chess.move(move);
-    from_square = null;
+    calc_scale();
+}
+
+function handle_drop_window(event) {
+    event.preventDefault();
     calc_scale();
 }
 
 window.addEventListener("resize", calc_scale);
 for (let i = 0; i < 64; i++) {
     const img = document.getElementById("work_board_" + i);
-    img.addEventListener("click", handle_click);
+    img.addEventListener("dragstart", handle_drag_start);
+    img.addEventListener("drop", handle_drop);
 }
+window.addEventListener("dragover", handle_drag_over);
+window.addEventListener("drop", handle_drop_window);
 window.addEventListener("load", (event) => {calc_scale();})
 document.getElementById("work_board_back").addEventListener(
     "click",
