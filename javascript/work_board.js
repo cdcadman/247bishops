@@ -73,37 +73,35 @@ function piece_url(piece) {
 }
 
 function handle_click(event) {
-    const scaleX = event.offsetX / scaleFactor;
-    const scaleY = event.offsetY / scaleFactor;
-    const column = Math.floor(scaleX / 32);
-    const row = Math.floor(scaleY / 32);
-    if (row >= 0 && row <= 7 && column >= 0 && column <= 7) {
-        let square = 8*row + column;
-        if (from_square == null) {
-            from_square = square;
-            calc_scale();
-            return;
-        }
-        if (from_square == square) {
-            from_square = null;
-            calc_scale();
-            return;
-        }
-        let move = {from: SQUARES[from_square], to: SQUARES[square]};
-        const from_piece = chess.get(SQUARES[from_square])
-        if (from_piece.type == "p") {
-            if (row == 7 || row == 0) {
-                move["promotion"] = window.prompt("Promotion piece (q, r, b, or n)?");
-            }
-        }
-        chess.move(move);
+    const square = parseInt(event.target.id.split("_")[2]);
+    if (from_square == null) {
+        from_square = square;
+        calc_scale();
+        return;
+    }
+    if (from_square == square) {
         from_square = null;
         calc_scale();
+        return;
     }
+    let move = {from: SQUARES[from_square], to: SQUARES[square]};
+    const from_piece = chess.get(SQUARES[from_square])
+    if (from_piece.type == "p") {
+        let row = square % 8;
+        if (row == 7 || row == 0) {
+            move["promotion"] = window.prompt("Promotion piece (q, r, b, or n)?");
+        }
+    }
+    chess.move(move);
+    from_square = null;
+    calc_scale();
 }
 
 window.addEventListener("resize", calc_scale);
-//canvas.addEventListener("click", handle_click);
+for (let i = 0; i < 64; i++) {
+    const img = document.getElementById("work_board_" + i);
+    img.addEventListener("click", handle_click);
+}
 window.addEventListener("load", (event) => {calc_scale();})
 document.getElementById("work_board_back").addEventListener(
     "click",

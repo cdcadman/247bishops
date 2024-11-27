@@ -11,6 +11,7 @@
 }
 #work_board_table {
     float: left;
+    border-collapse: collapse;
 }
 #move_list {
     resize: none;
@@ -18,6 +19,10 @@
 }
 #work_board_back {
     font-size: 1.5em;
+}
+#work_board_table td {
+    margin: 0;
+    padding: 0;
 }
 #work_board_table img {
     margin: 0;
