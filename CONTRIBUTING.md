@@ -41,6 +41,11 @@ while True:
     time.sleep(0.1) # pragma: no cover
 ```
 
+## Tested Browsers
+
+The browsers which are tested are defined in `tests/conftest.py`.  The `driver` fixture defined in that file is parametrized by all the browsers.
+To run tests for only a specific browser, use `-k`.  For example, `pytest -k "[chrome]"` will run only tests using the `driver` fixture and only with Chrome.
+
 ## Adding python packages
 
 To add a python package, place it in `base_reqs.txt` with no version specifier.  Then run `calc_deterministic.sh` to update `requirements.txt`.
