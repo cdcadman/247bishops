@@ -6,6 +6,7 @@ from appium.webdriver import Remote
 from appium.webdriver.appium_connection import AppiumConnection
 from selenium import webdriver as wd
 from selenium.webdriver.remote.client_config import ClientConfig
+from urllib3.exceptions import ReadTimeoutError
 
 ALL_BROWSERS = []
 
@@ -30,7 +31,16 @@ def edge():
     options.add_argument("--window-size=600,1000")
     options.add_argument("--force-device-scale-factor=1.25")
     options.add_argument("--device-scale-factor=1.25")
-    return wd.Edge(options=options)
+    webdriver = wd.Edge(options=options)
+    _exc = None
+    for _ in range(5):
+        try:
+            webdriver.get("https:/www.google.com")
+        except ReadTimeoutError as exc:  # pragma: no cover
+            _exc = exc
+        else:
+            return webdriver
+    raise _exc  # pragma: no cover
 
 
 @browser
