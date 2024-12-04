@@ -61,6 +61,7 @@ def android_chrome():
         platformName="Android",
         browserName="chrome",
         chromeOptions={"w3c": False},
+        uiautomator2ServerLaunchTimeout=60000,
     )
     appium_server_url = "http://localhost:4723"
     client_config = ClientConfig(appium_server_url)
