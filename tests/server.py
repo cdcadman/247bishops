@@ -1,9 +1,11 @@
 import signal
 import subprocess as sp
 import sys
+import time
 from contextlib import contextmanager
 
 TIMEOUT = 5
+PORT = 5000  # this matches the port in the reverse proxy command for Android Virtual Device
 
 
 def close_server(server: sp.Popen, check_status=True):
@@ -16,10 +18,9 @@ def close_server(server: sp.Popen, check_status=True):
 
 @contextmanager
 def get_server_url(maintenance_mode: bool = False):
-    port = 5000
-    while True:
+    for _ in range(int(10 * TIMEOUT)):
         server = sp.Popen(
-            [sys.executable, "run_flask.py", str(port), str(maintenance_mode)],
+            [sys.executable, "run_flask.py", str(PORT), str(maintenance_mode)],
             stderr=sp.PIPE,
             text=True,
             universal_newlines=True,
@@ -29,10 +30,12 @@ def get_server_url(maintenance_mode: bool = False):
         sys.stderr.write(out)
         if "Address already in use" in out:
             close_server(server, check_status=False)
-            port += 1
+            time.sleep(0.1)
         else:
             break
+    else:
+        raise TimeoutError(f"Could not start a webserver on port {PORT}")
     try:
-        yield f"http://127.0.0.1:{port}"
+        yield f"http://127.0.0.1:{PORT}"
     finally:
         close_server(server)

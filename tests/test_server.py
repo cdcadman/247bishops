@@ -1,9 +1,13 @@
-from .server import get_server_url
+import pytest
+
+from . import server
 
 
-def test_port_increment():
-    with get_server_url() as first_url:
-        first_port = int(first_url.split(":")[2])
-        with get_server_url() as second_url:
-            second_port = int(second_url.split(":")[2])
-            assert second_port > first_port
+def test_timeout_error(monkeypatch):
+    with server.get_server_url():
+        monkeypatch.setattr(server, "TIMEOUT", 0.1)
+        with pytest.raises(
+            TimeoutError, match=f"Could not start a webserver on port {server.PORT}"
+        ):
+            with server.get_server_url():
+                pass  # pragma: no cover
