@@ -12,21 +12,22 @@ def test_main(driver: BaseWebDriver):
     with get_server_url() as webapp_url:
         driver.get(webapp_url)
         WebDriverWait(driver, TIMEOUT).until(
-            EC.element_to_be_clickable((By.ID, "about"))
+            EC.element_to_be_clickable((By.XPATH, "//*[@id='about']"))
         )
-        about = driver.find_element(By.ID, "about")
-        assert about.get_attribute("innerText") == "About 24/7 Bishops"
-        about_popup = driver.find_element(By.ID, "about_popup")
+        about = driver.find_element(By.XPATH, "//*[@id='about']")
+        assert about.text == "About 24/7 Bishops"
+        about_popup = driver.find_element(By.XPATH, "//*[@id='about_popup']")
         assert not about_popup.is_displayed()
         about.click()
         WebDriverWait(driver, TIMEOUT).until(
-            EC.visibility_of_element_located((By.ID, "about_popup"))
+            EC.visibility_of_element_located((By.XPATH, "//*[@id='about_popup']"))
         )
-        assert "GNU Affero General Public License" in driver.find_element(
-            By.ID, "about_popup"
-        ).get_attribute("innerText")
+        assert (
+            "GNU Affero General Public License"
+            in driver.find_element(By.XPATH, "//*[@id='about_popup']").text
+        )
         assert about_popup.is_displayed()
-        driver.find_element(By.ID, "close_about_popup").click()
+        driver.find_element(By.XPATH, "//*[@id='close_about_popup']").click()
         WebDriverWait(driver, TIMEOUT).until(lambda d: not about_popup.is_displayed())
 
 
