@@ -39,7 +39,7 @@ def make_move(
 
 def test_work_board(driver: BaseWebDriver):
     if isinstance(driver, Firefox):
-        return  # Drag/drop doesn't work with Firefox geckodriver: https://bugzilla.mozilla.org/show_bug.cgi?id=1515879
+        return  # Drag/drop doesn't work with Firefox geckodriver: https://github.com/mozilla/geckodriver/issues/1450
     with get_server_url() as webapp_url:
         driver.get(webapp_url)
         WebDriverWait(driver, TIMEOUT).until(
