@@ -91,7 +91,7 @@ function handle_drop(event) {
     let move = {from: SQUARES[from_square], to: SQUARES[square]};
     const from_piece = chess.get(SQUARES[from_square])
     if (from_piece.type == "p") {
-        let row = square % 8;
+        let row = Math.floor(square / 8);
         if (row == 7 || row == 0) {
             move["promotion"] = window.prompt("Promotion piece (q, r, b, or n)?");
         }
