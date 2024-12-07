@@ -60,15 +60,14 @@ def android_chrome():
     capabilities = dict(
         platformName="Android",
         browserName="chrome",
-        chromeOptions={"w3c": False},
         uiautomator2ServerLaunchTimeout=60000,
     )
     appium_server_url = "http://localhost:4723"
     client_config = ClientConfig(appium_server_url)
     command_executor = AppiumConnection(client_config=client_config)
-    return Remote(
-        command_executor, options=UiAutomator2Options().load_capabilities(capabilities)
-    )
+    options = UiAutomator2Options()
+    options.load_capabilities(capabilities)
+    return Remote(command_executor, options=options)
 
 
 @pytest.fixture(params=ALL_BROWSERS)

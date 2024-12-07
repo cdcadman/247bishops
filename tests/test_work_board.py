@@ -11,10 +11,10 @@ TIMEOUT = 5
 
 def get_element(driver: BaseWebDriver, square: str):
     if square is None:
-        return driver.find_element(By.ID, "move_list")
+        return driver.find_element(By.XPATH, "//*[@id='move_list']")
     row = 8 - int(square[1])
     column = ord(square[0]) - 97
-    return driver.find_element(By.ID, f"work_board_{8*row+column}")
+    return driver.find_element(By.XPATH, f"//*[@id='work_board_{8*row+column}']")
 
 
 def make_move(
@@ -24,8 +24,8 @@ def make_move(
     move_list_append: str = "",
     promotion_piece=None,
 ):
-    move_list = driver.find_element(By.ID, "move_list")
-    orig_move_list = move_list.get_attribute("innerHTML")
+    move_list = driver.find_element(By.XPATH, "//*[@id='move_list']")
+    orig_move_list = move_list.text
     from_elmt = get_element(driver, from_square)
     to_elmt = get_element(driver, to_square)
     ActionChains(driver).drag_and_drop(from_elmt, to_elmt).perform()
@@ -34,20 +34,20 @@ def make_move(
         assert alert.text == "Promotion piece (q, r, b, or n)?"
         alert.send_keys(promotion_piece)
         alert.accept()
-    assert move_list.get_attribute("innerHTML") == orig_move_list + move_list_append
+    assert move_list.text == orig_move_list + move_list_append
 
 
 def test_work_board(driver: BaseWebDriver):
     if isinstance(driver, Firefox):
-        return  # Drag/drop doesn't work with Firefox geckodriver: https://bugzilla.mozilla.org/show_bug.cgi?id=1515879
+        return  # Drag/drop doesn't work with Firefox geckodriver: https://github.com/mozilla/geckodriver/issues/1450
     with get_server_url() as webapp_url:
         driver.get(webapp_url)
         WebDriverWait(driver, TIMEOUT).until(
-            EC.element_to_be_clickable((By.ID, "work_board"))
+            EC.element_to_be_clickable((By.XPATH, "//*[@id='work_board']"))
         )
-        driver.find_element(By.ID, "work_board").click()
+        driver.find_element(By.XPATH, "//*[@id='work_board']").click()
         WebDriverWait(driver, TIMEOUT).until(
-            EC.visibility_of_element_located((By.ID, "work_board_table"))
+            EC.visibility_of_element_located((By.XPATH, "//*[@id='work_board_table']"))
         )
         make_move(driver, "e2", "e4", "1. e4")
         make_move(driver, "e7", "d6")  # Illegal move
@@ -63,8 +63,8 @@ def test_work_board(driver: BaseWebDriver):
         make_move(driver, "f3", "g2", " fxg2")
         make_move(driver, "g7", "h8", " 6. gxh8=Q", "q")
         make_move(driver, "g2", "h1", " gxh1=N", "n")
-        driver.find_element(By.ID, "work_board_back").click()
-        move_list = driver.find_element(By.ID, "move_list")
+        driver.find_element(By.XPATH, "//*[@id='work_board_back']").click()
+        move_list = driver.find_element(By.XPATH, "//*[@id='move_list']")
         WebDriverWait(driver, TIMEOUT).until(
-            lambda d: move_list.get_attribute("innerHTML").endswith("6. gxh8=Q")
+            lambda d: move_list.text.endswith("6. gxh8=Q")
         )
