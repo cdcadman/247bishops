@@ -61,10 +61,10 @@ def test_work_board(driver: BaseWebDriver):
         make_move(driver, "f4", "f3", " f3")
         make_move(driver, "f6", "g7", " 5. fxg7")
         make_move(driver, "f3", "g2", " fxg2")
-        make_move(driver, "g7", "h8", " 6. gxh8=Q", "q")
-        make_move(driver, "g2", "h1", " gxh1=N", "n")
+        make_move(driver, "g7", "f8", " 6. gxf8=N", "n")
+        make_move(driver, "g2", "f1", " gxf1=Q+", "q")
         driver.find_element(By.XPATH, "//*[@id='work_board_back']").click()
         move_list = driver.find_element(By.XPATH, "//*[@id='move_list']")
         WebDriverWait(driver, TIMEOUT).until(
-            lambda d: move_list.text.endswith("6. gxh8=Q")
+            lambda d: move_list.text.endswith("6. gxf8=N")
         )
