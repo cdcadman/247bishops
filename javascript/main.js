@@ -32,4 +32,11 @@ document.getElementById("work_board").addEventListener('click',
     () => {
         switch_to("work_board_content");
     }
-)
+);
+window.addEventListener("contextmenu",
+    (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+);
