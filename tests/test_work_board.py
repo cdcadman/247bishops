@@ -1,4 +1,4 @@
-from selenium.webdriver import ActionChains, Firefox
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import BaseWebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -38,8 +38,6 @@ def make_move(
 
 
 def test_work_board(driver: BaseWebDriver):
-    if isinstance(driver, Firefox):
-        return  # Drag/drop doesn't work with Firefox geckodriver: https://github.com/mozilla/geckodriver/issues/1450
     with get_server_url() as webapp_url:
         driver.get(webapp_url)
         WebDriverWait(driver, TIMEOUT).until(

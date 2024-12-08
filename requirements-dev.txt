@@ -9,4 +9,3 @@ bandit>=1.7.5
 licensecheck>=2024
 selenium>=4.13.0
 requests>=2.32.3
-Appium-Python-Client>=4.3.0
