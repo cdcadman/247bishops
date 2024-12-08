@@ -5,6 +5,7 @@ from appium.options.android import UiAutomator2Options
 from appium.webdriver import Remote
 from appium.webdriver.appium_connection import AppiumConnection
 from selenium import webdriver as wd
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.remote.client_config import ClientConfig
 from urllib3.exceptions import ReadTimeoutError
 
@@ -67,7 +68,13 @@ def android_chrome():
     command_executor = AppiumConnection(client_config=client_config)
     options = UiAutomator2Options()
     options.load_capabilities(capabilities)
-    return Remote(command_executor, options=options)
+    _exc = None
+    for _ in range(5):
+        try:
+            return Remote(command_executor, options=options)
+        except WebDriverException as exc:  # pragma: no cover
+            _exc = exc
+    raise _exc  # pragma: no cover
 
 
 @pytest.fixture(params=ALL_BROWSERS)
