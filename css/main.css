@@ -1,5 +1,9 @@
+html {
+    overscroll-behavior-y: contain;
+}
 body {
     background-color:lightcyan;
+    overscroll-behavior-y: contain;
 }
 h1 {
     color:blue;
