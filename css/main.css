@@ -1,9 +1,11 @@
 html {
     overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
 }
 body {
     background-color:lightcyan;
     overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
 }
 h1 {
     color:blue;
