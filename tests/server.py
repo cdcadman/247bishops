@@ -2,7 +2,17 @@ import signal
 import subprocess as sp
 import sys
 import time
+import tomllib
 from contextlib import contextmanager
+from pathlib import Path
+
+TOML_FILE = Path(__file__).parent.absolute().parent / "pyproject.toml"
+
+WARNING_FILTERS = []
+for _filter in tomllib.loads(TOML_FILE.read_text())["tool"]["pytest"]["ini_options"][
+    "filterwarnings"
+]:
+    WARNING_FILTERS.extend(["-W", _filter])
 
 TIMEOUT = 5
 PORT = 5000  # this matches the port in the reverse proxy command for Android Virtual Device
@@ -20,7 +30,9 @@ def close_server(server: sp.Popen, check_status=True):
 def get_server_url(maintenance_mode: bool = False):
     for _ in range(int(10 * TIMEOUT)):
         server = sp.Popen(
-            [sys.executable, "run_flask.py", str(PORT), str(maintenance_mode)],
+            [sys.executable]
+            + WARNING_FILTERS
+            + ["run_flask.py", str(PORT), str(maintenance_mode)],
             stderr=sp.PIPE,
             text=True,
             universal_newlines=True,
